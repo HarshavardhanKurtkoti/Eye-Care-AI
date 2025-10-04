@@ -1,0 +1,2 @@
+backend/notebook/*.h5 filter=lfs diff=lfs merge=lfs -text
+backend/notebook/*.keras filter=lfs diff=lfs merge=lfs -text

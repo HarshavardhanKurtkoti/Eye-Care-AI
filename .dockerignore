@@ -1,0 +1,25 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore dataset folders (very large)
+backend/notebook/Augmented Dataset/
+backend/notebook/Original Dataset/
+
+# Node / frontend artifacts
+frontend/
+frontend/node_modules/
+frontend/dist/
+
+# Git and editor metadata
+.git
+.gitignore
+.vscode
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Don't ignore model files needed by the backend. Only ignore model artifacts in notebooks/datasets if you want to keep image small.
+# If you have very large model files inside notebook/ that you do NOT want to copy into the image, add explicit paths such as:
+# backend/notebook/some-large-model.h5
+# For safety we don't include a global "*.h5" pattern here.
