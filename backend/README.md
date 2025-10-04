@@ -6,6 +6,7 @@ Prerequisites
 - Python 3.10
 - pip
 - (Optional) Docker for container builds
+- Git LFS is used for model files; contributors should run `git lfs install` before cloning.
 
 Quick start (local, virtualenv recommended)
 ```bash
@@ -36,19 +37,20 @@ Run the container:
 docker run --rm -p 5000:5000 --name eye-disease-backend eye-disease-backend:latest
 ```
 
-Notes
-- The backend loads model files from `backend/` and `backend/notebook/` (see `app.py`). Ensure `eye_disease_model.h5` or other model artifacts are present at build time or mounted at runtime.
-- TensorFlow wheels are large — expect long build times and a large Docker image.
-- If model files are too large for GitHub, upload them directly to your cloud host or download them on first-run from object storage.
+Notes:
+- The image will include whatever is in `backend/` at build time (including model files). If models are large, consider mounting them at runtime or hosting them externally.
+- TensorFlow and OpenCV add significant size to the image — expect a large image and longer build times.
+
+Deploying to Render with Docker
+- Render supports Git LFS and Docker builds. Set up a Web Service on Render pointing to the repo root and select the Docker environment. Ensure `PORT` environment variable is honored (the Docker entrypoint uses `$PORT`).
+- If build fails due to memory, choose a larger instance or use a TensorFlow base image.
+
+---
 
 Environment variables
 - `PORT` — optional, default 5000
 
-Render deploy tips
-1. Push to GitHub (or another Git provider).
-2. Create a Web Service on Render and point it at the repo.
-3. Ensure Render builds from the repo root (root `Dockerfile` will be used).
-4. If the model file is too large for your Git provider, upload or fetch it from storage during boot.
+---
 
 Troubleshooting
 - CORS issues: confirm `flask-cors` is installed and the frontend uses the correct backend URL.

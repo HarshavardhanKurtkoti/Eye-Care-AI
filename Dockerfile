@@ -17,10 +17,14 @@ COPY backend/requirements.txt /app/requirements.txt
 
 # Upgrade pip and install Python dependencies from requirements.txt
 RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r /app/requirements.txt
+    && pip install --no-cache-dir -r /app/requirements.txt \
+    && pip install --no-cache-dir gunicorn
 
 # Copy backend sources and models into image
+# Copy backend source and entrypoint
 COPY backend/ /app/
+COPY backend/docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
 
 # Expose Flask default port used by app.py
 EXPOSE 5000
@@ -29,8 +33,8 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-# Run the Flask app
-CMD ["python", "app.py"]
+# Run using entrypoint (launches gunicorn binding to $PORT)
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 # Use official Python slim image
 FROM python:3.10-slim
 
