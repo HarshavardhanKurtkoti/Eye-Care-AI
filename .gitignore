@@ -1,6 +1,4 @@
 backend/venv
 backend/notebook/Augmented Dataset
 backend/notebook/Original Dataset
-backend/notebook/*.h5
-backend/notebook/*.keras
 frontend/node_modules
